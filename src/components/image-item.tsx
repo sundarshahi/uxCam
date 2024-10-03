@@ -38,7 +38,6 @@ const ImageItem: React.FC<ImageItemProps> = ({
   listItemClassName,
   onSelect,
 }) => {
-  console.log("ii", item);
   return (
     <button
       data-testid="ImageItemButton"

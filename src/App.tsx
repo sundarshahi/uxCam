@@ -9,8 +9,8 @@ import {
   getMediaBreakpoints,
 } from "./utils/masonry";
 import useMedia from "./hooks/useMedia";
-import MasonryLayout from "./components/MasonryLayout";
-import ImageItem from "./components/ImageItem";
+import MasonryLayout from "./components/masonry-layout";
+import ImageItem from "./components/image-item";
 import useApi, { Gif } from "./hooks/useApi";
 import useDebounce from "./hooks/useDebounce";
 

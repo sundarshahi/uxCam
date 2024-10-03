@@ -104,8 +104,7 @@ const apiReducer: Reducer<StateProps, ActionProps> = (state, action) => {
 
 const useApi = (query: string, currentPage: number) => {
   const [state, dispatch] = useReducer(apiReducer, initialState);
-  const apiKey = "h7n4oHmncjDHM3Y54ueTRs3rTyw8q7Xl";
-
+  const apiKey = import.meta.env.VITE_GIPHY_API_KEY;
   useEffect(() => {
     const fetchGifs = async () => {
       dispatch({ type: "FETCH_INIT" });
