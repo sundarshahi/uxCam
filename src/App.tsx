@@ -1,35 +1,113 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import SearchForm from "./components/search-form";
 
-function App() {
-  const [count, setCount] = useState(0)
+import useSearchForm from "./hooks/useSearchForm";
+
+import {
+  getComponentWrapperWidth,
+  getDefaultMasonryConfig,
+  getMasonryConfigExceptLast,
+  getMediaBreakpoints,
+} from "./utils/masonry";
+import useMedia from "./hooks/useMedia";
+import MasonryLayout from "./components/MasonryLayout";
+import ImageItem from "./components/ImageItem";
+import useApi, { Gif } from "./hooks/useApi";
+
+export type ImageRenditionFileType = "gif" | "webp";
+
+const masonryConfig = [
+  { columns: 2, imageWidth: 110, gutter: 5 },
+  { mq: "1020px", columns: 5, imageWidth: 120, gutter: 5 },
+];
+
+const App = () => {
+  const {
+    searchTerm,
+    currentPage,
+    handleInputChange,
+    handleSearch,
+    setCurrentPage,
+  } = useSearchForm();
+
+  const { data, pagination, loading, error } = useApi(searchTerm, currentPage);
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(pagination.total_count / pagination.count)) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const masonryConfigMatchMedia = useMedia(
+    getMediaBreakpoints(masonryConfig),
+    getMasonryConfigExceptLast(masonryConfig),
+    getDefaultMasonryConfig(masonryConfig)
+  )!;
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div
+        className={`giphy-componentWrapper`}
+        style={{ width: getComponentWrapperWidth(masonryConfigMatchMedia) }}
+      >
+        <SearchForm
+          value={searchTerm}
+          setValue={handleInputChange}
+          onSubmit={handleSearch}
+          placeholder="Search Gifs"
+        />
 
-export default App
+        {loading && <p>Loading...</p>}
+        {error && <p>Error fetching GIFs: {error}</p>}
+
+        <div className={`giphy-listWrapper`} style={{ height: "800px" }}>
+          {data.length > 0 && (
+            <MasonryLayout sizes={masonryConfig}>
+              {data.map((item: Gif) => (
+                <ImageItem
+                  item={item}
+                  size={masonryConfigMatchMedia.imageWidth}
+                  key={item.id}
+                />
+              ))}
+            </MasonryLayout>
+          )}
+        </div>
+        <div
+          style={{ display: "flex", width: "100%", justifyContent: "center" }}
+        >
+          <button onClick={handlePrevPage} disabled={currentPage === 1}>
+            Previous
+          </button>
+          <span>
+            {" "}
+            Page {currentPage} of{" "}
+            {Math.ceil(pagination.total_count / pagination.count)}{" "}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={
+              currentPage >=
+              Math.ceil(pagination.total_count / pagination.count)
+            }
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default App;
