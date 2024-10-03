@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 type ImageRenditionFileType = "gif" | "webp";
 
 interface ImageItemImages {
@@ -30,23 +32,20 @@ const getUrl = (fileType: ImageRenditionFileType): string => {
 };
 
 const ImageItem: React.FC<ImageItemProps> = ({
-  backgroundColor,
   item,
   imageRenditionName = "fixed_width_downsampled",
   imageRenditionFileType = "gif",
   size,
-  listItemClassName,
   onSelect,
 }) => {
   return (
     <button
-      data-testid="ImageItemButton"
+      data-testid="image-item-button"
       type="button"
-      className={`giphy-imageButton${
-        listItemClassName ? ` ${listItemClassName}` : ""
-      }`}
+      className={cn(
+        "p-0 outline-inherit text-inherit	border-none cursor-pointer transition-opacity ease-in duration-300 opacity-100 hover:opacity-0 focus:opacity-60"
+      )}
       style={{
-        backgroundColor,
         width: `${size}px`,
         height: `${
           (item.images[imageRenditionName].height * size) /
@@ -56,14 +55,14 @@ const ImageItem: React.FC<ImageItemProps> = ({
       onClick={() => onSelect?.(item)}
     >
       <img
-        data-testid="ImageItemImage"
+        data-testid="image-item"
         width={item.images[imageRenditionName].width}
         height={item.images[imageRenditionName].height}
         alt={item.title}
         src={String(
           item.images[imageRenditionName][getUrl(imageRenditionFileType)]
         )}
-        className="giphy-image"
+        className="block w-full h-auto	"
       />
     </button>
   );

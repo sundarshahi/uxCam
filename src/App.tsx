@@ -1,18 +1,27 @@
-import SearchForm from "./components/search-form";
+import Alert from "@/components/alert";
+import Spinner from "@/components/spinner";
+import ImageItem from "@/components/image-item";
+import SearchForm from "@/components/search-form";
+import MasonryLayout from "@/components/masonry-layout";
 
-import useSearchForm from "./hooks/useSearchForm";
+import useMedia from "@/hooks/useMedia";
+import useApi, { Gif } from "@/hooks/useApi";
+import useDebounce from "@/hooks/useDebounce";
+import useSearchForm from "@/hooks/useSearchForm";
 
 import {
   getComponentWrapperWidth,
   getDefaultMasonryConfig,
   getMasonryConfigExceptLast,
   getMediaBreakpoints,
-} from "./utils/masonry";
-import useMedia from "./hooks/useMedia";
-import MasonryLayout from "./components/masonry-layout";
-import ImageItem from "./components/image-item";
-import useApi, { Gif } from "./hooks/useApi";
-import useDebounce from "./hooks/useDebounce";
+} from "@/lib/masonry";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "./components/ui/pagination";
 
 export type ImageRenditionFileType = "gif" | "webp";
 
@@ -74,10 +83,15 @@ const App = () => {
           placeholder="Search Gifs"
         />
 
-        {loading && <p>Loading...</p>}
-        {error && <p>Error fetching GIFs: {error}</p>}
+        <Alert
+          show={data.length === 0 && !loading && !error}
+          message="No matches found. Search again with right keyword."
+        />
 
-        <div className={`giphy-listWrapper`} style={{ height: "800px" }}>
+        <Alert show={!!error} message={error} />
+        <Spinner show={loading} message="Loading..." />
+
+        <div className="overflow-y-auto h-[600px]">
           {data.length > 0 && (
             <MasonryLayout sizes={masonryConfig}>
               {data.map((item: Gif) => (
@@ -90,26 +104,26 @@ const App = () => {
             </MasonryLayout>
           )}
         </div>
-        <div
-          style={{ display: "flex", width: "100%", justifyContent: "center" }}
-        >
-          <button onClick={handlePrevPage} disabled={currentPage === 1}>
-            Previous
-          </button>
-          <span>
-            {" "}
-            Page {currentPage} of{" "}
-            {Math.ceil(pagination.total_count / pagination.count)}{" "}
-          </span>
-          <button
-            onClick={handleNextPage}
-            disabled={
-              currentPage >=
-              Math.ceil(pagination.total_count / pagination.count)
-            }
-          >
-            Next
-          </button>
+        <div className="flex justify-center mt-5 gap-4">
+          {data.length > 0 && (
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious onClick={handlePrevPage} />
+                </PaginationItem>
+                <PaginationItem>
+                  <span className="text-sm text-black">
+                    {" "}
+                    Page {currentPage} of{" "}
+                    {Math.ceil(pagination.total_count / pagination.count)}{" "}
+                  </span>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationNext onClick={handleNextPage} />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          )}
         </div>
       </div>
     </div>

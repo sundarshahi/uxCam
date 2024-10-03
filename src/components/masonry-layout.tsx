@@ -32,7 +32,7 @@ const MasonryLayout: React.FC<MasonryLayoutProps> = ({ children, sizes }) => {
   }, [children, sizes]);
 
   return (
-    <div ref={container} data-testid="MasonryLayoutContainer">
+    <div ref={container} data-testid="masonry-layout-container">
       {children}
     </div>
   );

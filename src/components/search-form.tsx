@@ -1,12 +1,13 @@
 import React from "react";
+import { Input } from "@/components/ui/input";
 
 interface Props {
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   placeholder: string;
-  searchFormClassName?: string; // Optional
+  searchFormClassName?: string;
   setValue: (event: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
-  autoFocus?: boolean; // Optional
+  autoFocus?: boolean;
 }
 
 const SearchForm: React.FC<Props> = ({
@@ -14,24 +15,21 @@ const SearchForm: React.FC<Props> = ({
   placeholder,
   setValue,
   value,
-  autoFocus = false, // Default to false
 }) => {
   return (
     <form
-      data-testid="SearchFormForm"
+      data-testid="search-form"
       onSubmit={onSubmit}
       autoComplete="off"
-      className={`giphy-searchForm-form`}
+      className="relative mb-8"
     >
-      <input
-        data-testid="SearchFormInput"
+      <Input
+        data-testid="search-form-input"
         type="text"
         placeholder={placeholder}
         onChange={setValue}
         value={value}
         name="search"
-        className="giphy-searchForm-input"
-        autoFocus={autoFocus}
       />
     </form>
   );
