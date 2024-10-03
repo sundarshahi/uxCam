@@ -12,6 +12,7 @@ import useMedia from "./hooks/useMedia";
 import MasonryLayout from "./components/MasonryLayout";
 import ImageItem from "./components/ImageItem";
 import useApi, { Gif } from "./hooks/useApi";
+import useDebounce from "./hooks/useDebounce";
 
 export type ImageRenditionFileType = "gif" | "webp";
 
@@ -29,7 +30,12 @@ const App = () => {
     setCurrentPage,
   } = useSearchForm();
 
-  const { data, pagination, loading, error } = useApi(searchTerm, currentPage);
+  const debouncedQuery = useDebounce(searchTerm, 500);
+
+  const { data, pagination, loading, error } = useApi(
+    debouncedQuery,
+    currentPage
+  );
 
   const handleNextPage = () => {
     if (currentPage < Math.ceil(pagination.total_count / pagination.count)) {

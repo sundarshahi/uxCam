@@ -11,6 +11,7 @@ const useSearchForm = () => {
   const query = useQuery();
 
   const [searchTerm, setSearchTerm] = useState(query.get("q") || "");
+
   const [currentPage, setCurrentPage] = useState(
     Number(query.get("page")) || 1
   );
