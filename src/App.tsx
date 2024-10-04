@@ -22,6 +22,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "./components/ui/pagination";
+import { ThemeToggle } from "./components/theme-toggle";
 
 export type ImageRenditionFileType = "gif" | "webp";
 
@@ -66,12 +67,16 @@ const App = () => {
 
   return (
     <div
+      className="relative"
       style={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
       }}
     >
+      <div className="absolute right-20 top-2">
+        <ThemeToggle />
+      </div>
       <div
         className={`giphy-componentWrapper`}
         style={{ width: getComponentWrapperWidth(masonryConfigMatchMedia) }}
@@ -112,7 +117,7 @@ const App = () => {
                   <PaginationPrevious onClick={handlePrevPage} />
                 </PaginationItem>
                 <PaginationItem>
-                  <span className="text-sm text-black">
+                  <span className="text-sm text-black dark: text-white">
                     {" "}
                     Page {currentPage} of{" "}
                     {Math.ceil(pagination.total_count / pagination.count)}{" "}
