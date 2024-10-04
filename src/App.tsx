@@ -117,7 +117,7 @@ const App = () => {
                   <PaginationPrevious onClick={handlePrevPage} />
                 </PaginationItem>
                 <PaginationItem>
-                  <span className="text-sm text-black dark: text-white">
+                  <span className="text-sm text-black dark:text-white">
                     {" "}
                     Page {currentPage} of{" "}
                     {Math.ceil(pagination.total_count / pagination.count)}{" "}
