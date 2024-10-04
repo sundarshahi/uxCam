@@ -1,50 +1,69 @@
-# React + TypeScript + Vite
+# Giphy Search - Uxcam
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Frontend app for UxCam.
 
-Currently, two official plugins are available:
+## Highlights
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Bootstraped by vite.
+- React w/ TypeScript
+- tailwind utility class
+- shadcn for ui components
+- Maintained code standarization with linting support (eslint, prettier)
 
-## Expanding the ESLint configuration
+## Requirements
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- `bun` | `yarn `|`npm` as a package manager.(prefered bun)
+- `"node>=16" ` node version >= 16
 
-- Configure the top-level `parserOptions` property like this:
+## Getting Started
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- Clone the repo.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+  ```console
+    git clone git@github.com:sundarshahi/uxCam.git
+  ```
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- goto project root directory.
+  ```console
+       cd uxCam
+  ```
+- Copy the content of `.env.sample` to root of project as `.env.development || .env.production || .env` as per the requirement and change the value of variable
+- Install dependencies using
+  ```console
+     bun install
+  ```
+  or
+  ```console
+     npm i
+  ```
+  or
+  ```console
+    yarn
+  ```
+- To start the server as developement
+  -you must have `.env.development` or `.env`
+  ```console
+      bun dev
+  ```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## TAILWIND
+
+To learn more about the newest ways to use Tailwind utility class, checkout [the docs](https://tailwindcss.com/docs).
+
+## shadcn
+
+To learn more about the shadcn, checkout [the docs](https://ui.shadcn.com/docs).
+
+## TODO:
+
+- Refactor code to addapt layered architecture.
+- checkout [Reference](https://www.oreilly.com/library/view/software-architecture-patterns/9781491971437/ch01.html)
+- more [modularizing react](https://martinfowler.com/articles/modularizing-react-apps.html)
+
+## Environment variables
+
+A sample `.env` file can be found at [.env.sample](.env.sample)
+
+| name               | required |                       description |
+| :----------------- | :------: | --------------------------------: |
+| VITE_GIPHY_API_KEY |   true   | api key for giphy search endpoint |
