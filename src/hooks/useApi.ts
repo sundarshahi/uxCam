@@ -1,3 +1,4 @@
+import { API_KEY, BASE_URI } from "@/config/config";
 import { useReducer, useEffect, Reducer } from "react";
 
 interface Pagination {
@@ -59,7 +60,6 @@ interface StateProps {
   error: string | null;
 }
 
-// Initial state
 const initialState: StateProps = {
   data: [],
   pagination: {
@@ -104,14 +104,14 @@ const apiReducer: Reducer<StateProps, ActionProps> = (state, action) => {
 
 const useApi = (query: string, currentPage: number) => {
   const [state, dispatch] = useReducer(apiReducer, initialState);
-  const apiKey = import.meta.env.VITE_GIPHY_API_KEY;
+
   useEffect(() => {
     const fetchGifs = async () => {
       dispatch({ type: "FETCH_INIT" });
 
       try {
         const response = await fetch(
-          `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${query}&offset=${
+          `${BASE_URI}?api_key=${API_KEY}&q=${query}&offset=${
             (currentPage - 1) * 25
           }&limit=25`
         );

@@ -66,4 +66,5 @@ A sample `.env` file can be found at [.env.sample](.env.sample)
 
 | name               | required |                       description |
 | :----------------- | :------: | --------------------------------: |
+| VITE_API_BASE_URI  |   true   |                          Base url |
 | VITE_GIPHY_API_KEY |   true   | api key for giphy search endpoint |
